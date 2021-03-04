@@ -15,6 +15,7 @@ import com.drewrick.coinmarketapp.model.repository.Repository
 import com.drewrick.coinmarketapp.model.repository.RepositoryImp
 import com.drewrick.coinmarketapp.worker.NetworkWorker
 import io.reactivex.disposables.CompositeDisposable
+import java.util.concurrent.TimeUnit
 
 class CurrencyViewModel(application: Application) :
     AndroidViewModel(application) {
@@ -57,6 +58,24 @@ class CurrencyViewModel(application: Application) :
             .getWorkInfoByIdLiveData(networkRequestWork.id)
     }
 
+    fun buildPeriodicRequest(): LiveData<WorkInfo> {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        val networkRequestWork = PeriodicWorkRequestBuilder<NetworkWorker>(
+            15, TimeUnit.MINUTES
+        )
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(getApplication())
+            .enqueue(networkRequestWork)
+
+        return WorkManager.getInstance(getApplication())
+            .getWorkInfoByIdLiveData(networkRequestWork.id)
+    }
+
     fun getCurrencyFromDatabase(): LiveData<List<Currency>> {
         compositeDisposable.add(
             repository.getDataFromDatabase()
@@ -72,4 +91,8 @@ class CurrencyViewModel(application: Application) :
         return currencyList
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
+    }
 }

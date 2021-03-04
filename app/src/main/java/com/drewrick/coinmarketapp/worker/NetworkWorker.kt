@@ -42,7 +42,7 @@ class NetworkWorker(ctx: Context, params: WorkerParameters) : Worker(ctx, params
         return Result.success()
     }
 
-    private fun insertIntoDatabase(data: List<Currency>) {
+    private fun insertIntoDatabase(data: ArrayList<Currency>) {
         compositeDisposable.add(
             currencyDao
                 .insert(data)

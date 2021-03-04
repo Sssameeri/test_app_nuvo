@@ -12,14 +12,14 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class RepositoryImp(
-    val networkApi: NetworkAPI,
-    val currencyDao: CurrencyDao,
-    val compositeDisposable: CompositeDisposable
+    private val networkApi: NetworkAPI,
+    private val currencyDao: CurrencyDao,
+    private val compositeDisposable: CompositeDisposable
 ) : Repository {
 
     private val TAG = "TAG"
 
-    override fun getDataFromNetwork(): Single<List<Currency>> {
+    override fun getDataFromNetwork(): Single<ArrayList<Currency>> {
         return networkApi
             .getInfo(BuildConfig.API_KEY)
             .map { response ->
@@ -32,7 +32,7 @@ class RepositoryImp(
             }
     }
 
-    override fun insertDataIntoDatabase(data: List<Currency>) {
+    override fun insertDataIntoDatabase(data: ArrayList<Currency>) {
         compositeDisposable.add(
             currencyDao
                 .insert(data)

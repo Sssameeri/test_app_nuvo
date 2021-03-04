@@ -159,7 +159,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/tvPercentLastDay"
                     app:layout_constraintTop_toBottomOf="@+id/tvPercentLastDay"
-                    app:setPercentChange="@{currency.quote.USD.percent_change_24h}"
+                    app:setPercentChange="@{currency.quote.USD.percent_change_7d}"
                     app:type="@{constants.WEEK}"
                     tools:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
                     tools:text="Percent change to last 7d: -1.34857235" />

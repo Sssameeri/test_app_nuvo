@@ -10,7 +10,7 @@ import com.drewrick.coinmarketapp.model.models.Currency
 const val DATABASE_NAME = "currency_db"
 const val DATABASE_VERSION = 1
 
-@Database(entities = [Currency::class], version = DATABASE_VERSION)
+@Database(entities = [Currency::class], version = DATABASE_VERSION, exportSchema = false)
 @TypeConverters(QuoteConverter::class)
 abstract class CurrencyDatabase : RoomDatabase() {
     abstract fun currencyDao(): CurrencyDao

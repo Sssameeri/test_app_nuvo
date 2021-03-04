@@ -6,9 +6,9 @@ import io.reactivex.Single
 
 interface Repository {
 
-    fun getDataFromNetwork(): Single<List<Currency>>
+    fun getDataFromNetwork(): Single<ArrayList<Currency>>
 
-    fun insertDataIntoDatabase(data: List<Currency>)
+    fun insertDataIntoDatabase(data: ArrayList<Currency>)
 
     fun getDataFromDatabase(): Observable<List<Currency>>
 

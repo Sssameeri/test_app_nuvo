@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -26,10 +27,13 @@ class MainFragment : Fragment(), CurrencyAdapter.OnItemClickListener {
     private val binding get() = _binding!!
 
     private lateinit var navController: NavController
+
     private lateinit var currencyViewModel: CurrencyViewModel
 
-    private val currencyAdapter = CurrencyAdapter(this)
     private lateinit var sharedPreferences: SharedPreferences
+
+    private var currencyList = arrayListOf<Currency>()
+    val currencyAdapter = CurrencyAdapter(currencyList, this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,8 +53,10 @@ class MainFragment : Fragment(), CurrencyAdapter.OnItemClickListener {
             Context.MODE_PRIVATE
         )
 
-        makeRequestCall(false)
         inflateAdapter()
+        initSearch()
+        makeRequestCall(false)
+        makePeriodicRequest()
     }
 
     private fun makeRequestCall(swipeFlag: Boolean) {
@@ -61,26 +67,55 @@ class MainFragment : Fragment(), CurrencyAdapter.OnItemClickListener {
         ) {
             currencyViewModel.makeNetworkRequest().observe(viewLifecycleOwner, { workInfo ->
                 workInfo?.let {
-                    if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                        if (swipeFlag)
-                            binding.swRefreshLayout.isRefreshing = false
+                    if (it.state == WorkInfo.State.SUCCEEDED) {
+                        binding.swRefreshLayout.isRefreshing = false
                         inflateAdapter()
-
-                        with(sharedPreferences.edit()) {
-                            putLong(Constants.LAST_UPDATE, System.currentTimeMillis())
-                            apply()
-                        }
+                        updateLastUpdatingTime()
                     }
                 }
             })
         }
     }
 
+    private fun makePeriodicRequest() {
+        currencyViewModel.buildPeriodicRequest().observe(viewLifecycleOwner, { workInfo ->
+            workInfo?.let {
+                if (it.state == WorkInfo.State.SUCCEEDED) {
+                    inflateAdapter()
+                    updateLastUpdatingTime()
+                }
+            }
+        })
+    }
+
+    private fun updateLastUpdatingTime() {
+        with(sharedPreferences.edit()) {
+            putLong(Constants.LAST_UPDATE, System.currentTimeMillis())
+            apply()
+        }
+    }
+
     private fun inflateAdapter() {
-        currencyViewModel.getCurrencyFromDatabase().observe(viewLifecycleOwner, {
-            currencyAdapter.submitList(it)
+        currencyViewModel.getCurrencyFromDatabase().observe(viewLifecycleOwner, { items ->
+            currencyList.clear()
+            currencyList.addAll(items)
+            currencyAdapter.notifyDataSetChanged()
         })
         binding.rvCurrencyList.adapter = currencyAdapter
+    }
+
+    private fun initSearch() {
+        binding.searchView.setOnQueryTextListener(object : OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                currencyAdapter.filter.filter(newText)
+                return false
+            }
+
+        })
     }
 
     private fun initViews() {

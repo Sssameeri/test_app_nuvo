@@ -11,7 +11,7 @@ import io.reactivex.Observable
 @Dao
 interface CurrencyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(data: List<Currency>): Completable
+    fun insert(data: ArrayList<Currency>): Completable
 
     @Query("SELECT * FROM currency")
     fun getData(): Observable<List<Currency>>
