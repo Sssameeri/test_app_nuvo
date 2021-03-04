@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="currency"
+            type="com.drewrick.coinmarketapp.model.models.Currency" />
+
+        <variable
+            name="constants"
+            type="com.drewrick.coinmarketapp.utils.Constants" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.CurrencyDetailFragment">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCurrencyName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@{currency.symbol}"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/tvExchangeToUSD"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="BTC" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvExchangeToUSD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTotalCoinsAvailable"
+                    app:layout_constraintEnd_toEndOf="@+id/tvCurrencyName"
+                    app:layout_constraintStart_toStartOf="@+id/tvCurrencyName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCurrencyName"
+                    app:setUsdExchange="@{currency.quote.USD.price}"
+                    tools:text="1 USD - 12312321" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTotalCoinsAvailable"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvMaxCoinsAvailable"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvExchangeToUSD"
+                    app:setTotalCoins="@{currency.total_supply}"
+                    tools:text="Total coins supply: 12312321" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMaxCoinsAvailable"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvTotalCapitalization"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTotalCoinsAvailable"
+                    app:setMaxCoins="@{currency.max_supply}"
+                    tools:text="Max coins supply: 12312321" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTotalCapitalization"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tvPercentLastHour"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvMaxCoinsAvailable"
+                    app:setTotalCapitalization="@{currency.circulating_supply}"
+                    tools:text="Total capitalization: 12312321" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPercentLastHour"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/tvPercentLastDay"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTotalCapitalization"
+                    app:setPercentChange="@{currency.quote.USD.percent_change_1h}"
+                    app:type="@{constants.HOUR}"
+                    tools:drawableEnd="@drawable/ic_baseline_keyboard_arrow_up_24"
+                    tools:text="Percent change to last 1h: 15.73590572" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPercentLastDay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/tvPercentLastWeek"
+                    app:layout_constraintEnd_toEndOf="@+id/tvPercentLastHour"
+                    app:layout_constraintStart_toStartOf="@+id/tvPercentLastHour"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPercentLastHour"
+                    app:setPercentChange="@{currency.quote.USD.percent_change_24h}"
+                    app:type="@{constants.DAY}"
+                    tools:drawableEnd="@drawable/ic_baseline_keyboard_arrow_up_24"
+                    tools:text="Percent change to last 24h: 5.56288859" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPercentLastWeek"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/tvPercentLastDay"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvPercentLastDay"
+                    app:layout_constraintTop_toBottomOf="@+id/tvPercentLastDay"
+                    app:setPercentChange="@{currency.quote.USD.percent_change_24h}"
+                    app:type="@{constants.WEEK}"
+                    tools:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                    tools:text="Percent change to last 7d: -1.34857235" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </FrameLayout>
+
+
+</layout>

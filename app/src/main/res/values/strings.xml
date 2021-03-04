@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Currency</string>
+    <string name="few_moments_ago">Updated few moments ago</string>
+    <string name="minutes_ago">Updated %d minutes ago</string>
+    <string name="hours_ago">Updated %d hours ago</string>
+    <string name="days_ago">Updated %d days ago</string>
+    <string name="minute_ago">Updated %d minute ago</string>
+    <string name="hour_ago">Updated %d hour ago</string>
+    <string name="day_ago">Updated %d day ago</string>
+    <string name="actual_exchange">Actual exchange: 1 USD - %.4f </string>
+    <string name="actual_usd_exchange">1 USD - %.4f </string>
+    <string name="actual_btc_exchange">1 BTC - %.4f </string>
+    <string name="total_coins_available">Total coins supply: %.2f</string>
+    <string name="max_coins_available">Max coins supply: %.2f</string>
+    <string name="total_capitalization">Total capitalization: %.2f</string>
+    <string name="percent_change_to_last_hour">Percent change to last 1h: %.2f</string>
+    <string name="percent_change_to_last_day">Percent change to last 24h: %.2f</string>
+    <string name="percent_change_to_last_week">Percent change to last 7d: %.2f</string>
+    <string name="shared_name">app_shared_pref</string>
+</resources>
